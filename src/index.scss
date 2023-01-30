@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap'); // 'Berkshire Swash', cursive;
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap'); // 'Lobster', cursive;
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,7 +20,7 @@ code {
 
 svg {
     // for icons: react-icons, ...
-    display: inline-block;
+    // display: inline-block;
 }
 
 button,
