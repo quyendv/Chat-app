@@ -1,1 +1,2 @@
-// Page đơn giản, k cần layout
+export { default as ProtectedLayout } from './Protected';
+export { default as AuthLayout } from './Auth';

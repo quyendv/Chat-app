@@ -28,7 +28,7 @@ input,
 textarea,
 [tabIndex] {
     outline: none;
-    border: none;
+    border: none; // border none này khi dùng thêm tailwind đôi khi gây lỗi khi set border 1 phía mà các phía khác vẫn tự thêm initialWidth, sửa thành border: 0 cũng được
 }
 
 // remove bg của form autoComplete (tự động điền của trình duyệt): https://stackoverflow.com/questions/29580704/change-input-background-to-transparent-on-autocomplete-form

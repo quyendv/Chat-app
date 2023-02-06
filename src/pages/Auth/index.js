@@ -1,8 +1,28 @@
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useRef } from 'react';
 import { FaFacebookF, FaGooglePlusG, FaLinkedinIn, FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
+import { auth, provider } from '~/configs/firebase';
+import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 
 function AuthPage() {
+    const [signInWithGoogle, _user, loading, error] = useSignInWithGoogle(auth);
     const containerRef = useRef();
+
+    const handleLoginGg = () => {
+        // ** Dùng thuần firebase: đăng nhập và dùng context/redux + onAuthStateChanged */
+        // signInWithPopup(auth, provider)
+        //     .then((result) => {
+        //         const credential = GoogleAuthProvider.credentialFromResult(result);
+        //         console.log(result);
+        //         console.log(credential);
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     });
+
+        // ** react-firebase-hooks */
+        signInWithGoogle();
+    };
 
     const handleToggleActiveRightPanel = (e) => {
         // class 'right-panel-active' add to Container -> show left-form and right-overlay
@@ -20,7 +40,7 @@ function AuthPage() {
                 ref={containerRef}
             >
                 {/* Form container - Sign in*/}
-                <div className="z-2 absolute top-0 left-0 w-1/2 transition-all duration-[600ms] ease-in-out group-[.right-panel-active]:translate-x-[100%] group-[.right-panel-active]:opacity-0">
+                <div className="z-2 absolute top-0 left-0 w-1/2 opacity-100 transition-all duration-[600ms] ease-in-out group-[.right-panel-active]:translate-x-[100%] group-[.right-panel-active]:opacity-0">
                     <form className="flex h-full flex-col items-center justify-center p-12">
                         <h1 className="mb-8 text-3xl font-bold text-white">Sign In</h1>
 
@@ -29,7 +49,10 @@ function AuthPage() {
                             <div className="grid cursor-pointer place-content-center rounded-md bg-facebook p-1.5 text-white transition-all ease-linear hover:scale-125">
                                 <FaFacebookF size={20} />
                             </div>
-                            <div className="grid cursor-pointer place-content-center rounded-md bg-google p-1.5 text-white transition-all ease-linear hover:scale-125">
+                            <div
+                                className="grid cursor-pointer place-content-center rounded-md bg-google p-1.5 text-white transition-all ease-linear hover:scale-125"
+                                onClick={handleLoginGg}
+                            >
                                 <FaGooglePlusG size={20} />
                             </div>
                             <div className="grid cursor-pointer place-content-center rounded-md bg-linkedin p-1.5 text-white transition-all ease-linear hover:scale-125">
@@ -45,7 +68,7 @@ function AuthPage() {
                         {/* Form Groups */}
                         <div className="relative w-full">
                             <label
-                                htmlFor="email"
+                                htmlFor="email-login"
                                 className="absolute left-2 top-1/2 -translate-y-1/2 cursor-pointer text-red-500"
                             >
                                 <FaEnvelope size={18} />
@@ -53,14 +76,14 @@ function AuthPage() {
                             <input
                                 type="text"
                                 placeholder="Email"
-                                id="email"
+                                id="email-login"
                                 name="email"
                                 className="w-full bg-[rgba(255,255,255,0.35)] p-1 pl-8 caret-red-500 placeholder:text-[#888]"
                             />
                         </div>
                         <div className="relative mt-4 w-full">
                             <label
-                                htmlFor="password"
+                                htmlFor="password-login"
                                 className="absolute left-2 top-1/2 -translate-y-1/2 cursor-pointer text-red-500"
                             >
                                 <FaLock size={18} />
@@ -68,7 +91,7 @@ function AuthPage() {
                             <input
                                 type="password"
                                 placeholder="Password"
-                                id="password"
+                                id="password-login"
                                 name="password"
                                 className="w-full bg-[rgba(255,255,255,0.35)] p-1 pl-8 caret-red-500 placeholder:text-[#888]"
                             />
@@ -84,7 +107,7 @@ function AuthPage() {
                 </div>
 
                 {/* Form container - Sign up*/}
-                <div className="z-1 group-[.right-panel-active]:z-3 absolute top-0 left-0 w-1/2 opacity-0 transition-all duration-[600ms] ease-in-out group-[.right-panel-active]:translate-x-[100%] group-[.right-panel-active]:opacity-100">
+                <div className="z-1 group-[.right-panel-active]:z-3 pointer-events-none absolute top-0 left-0 w-1/2 opacity-0 transition-all duration-[600ms] ease-in-out group-[.right-panel-active]:pointer-events-auto group-[.right-panel-active]:translate-x-[100%] group-[.right-panel-active]:opacity-100">
                     <form className="flex h-full flex-col items-center justify-center p-12">
                         <h1 className="mb-8 text-3xl font-bold text-white">Create Account</h1>
 
@@ -109,7 +132,7 @@ function AuthPage() {
                         {/* Form Groups */}
                         <div className="relative w-full">
                             <label
-                                htmlFor="email"
+                                htmlFor="email-register"
                                 className="absolute left-2 top-1/2 -translate-y-1/2 cursor-pointer text-red-500"
                             >
                                 <FaEnvelope size={18} />
@@ -117,14 +140,14 @@ function AuthPage() {
                             <input
                                 type="text"
                                 placeholder="Email"
-                                id="email"
+                                id="email-register"
                                 name="email"
                                 className="w-full bg-[rgba(255,255,255,0.35)] p-1 pl-8 caret-red-500 placeholder:text-[#888]"
                             />
                         </div>
                         <div className="relative mt-4 w-full">
                             <label
-                                htmlFor="password"
+                                htmlFor="password-register"
                                 className="absolute left-2 top-1/2 -translate-y-1/2 cursor-pointer text-red-500"
                             >
                                 <FaLock size={18} />
@@ -132,7 +155,7 @@ function AuthPage() {
                             <input
                                 type="password"
                                 placeholder="Password"
-                                id="password"
+                                id="password-register"
                                 name="password"
                                 className="w-full bg-[rgba(255,255,255,0.35)] p-1 pl-8 caret-red-500 placeholder:text-[#888]"
                             />
